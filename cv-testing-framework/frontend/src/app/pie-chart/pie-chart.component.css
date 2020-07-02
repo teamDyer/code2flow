@@ -1,0 +1,12 @@
+.wrap-everything {
+    padding-left: 10px;
+    padding-right: 10px;
+    height: calc(100% - 20px);
+}
+
+.error-panel {
+    position: relative;
+    background: #FCC;
+    padding: 10px;
+    margin: 5px;
+}

@@ -1,0 +1,10 @@
+<div class="content-wrap">
+  <input class="url-in" type="text" [(ngModel)]="apiUrl"><a class="gobutton" (click)="go()">Go</a>
+  <div *ngIf="apiLoading">
+    <app-spinner></app-spinner>
+  </div>
+  <div class="error-message" *ngIf="apiError">
+    {{apiError}}
+  </div>
+  <pre class="api-result" *ngIf="apiResult">{{apiResult}}</pre>
+</div>

@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${workspaceFolder}/backend",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Task Queue (Celery)",
+            "type": "python",
+            "request": "launch",
+            "module": "celery",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/backend",
+            "args": [
+                "worker",
+                "--loglevel=info",
+                "-P",
+                "solo"
+            ]
+        },
+        {
+            "name": "Python: Main Backend (Flask)",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "cwd": "${workspaceFolder}/backend",
+            "env": {
+                "FLASK_APP": "app.py",
+                "FLASK_ENV": "develop",
+                "FLASK_DEBUG": "0"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload",
+                "--port=8000"
+            ],
+            "jinja": true
+        }
+    ]
+}

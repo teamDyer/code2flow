@@ -1,0 +1,63 @@
+#!/bin/bash
+URL="${SATELLITE_URL:-http://127.0.0.1:7913}"
+do_get() { curl "$URL$1"; }
+do_post() { curl -X POST "$URL$1" -H 'Content-Type:application/json' -d "$2"; }
+check1() { if [ -z "$1" ]; then echo "First argument not supplied"; help; exit 1; fi }
+check2() { check1 "$1"; if [ -z "$2" ]; then echo "Second argument not supplied"; help; exit 1; fi }
+## usage: satctl [SUBCOMMAND] [ARGS...]
+##   Control the local compiler hub satellite. Does NOT interact directly with the Compiler Hub
+##   at all, mainly useful for debugging. Use the environment variable SATELLITE_URL
+##   to pick which satellite to use. Defaults to http://127.0.0.1:7913, the satellite process
+##   on the local machine. This tool outputs JSON for every request, so works well
+##   with a tool like jq - example: `satctl pending | jq ...`.
+## Subcommands:
+##   help : Show this help text.
+help () { grep "#""#" $0 | cut -c 4-; }
+##   url : Show satellite base url in use
+url () { echo "$URL"; }
+##   get [PATH] : Make a general HTTP GET request to the satellite.
+get () { check1 "$1"; do_get "$1"; }
+##   post [PATH] : Make a general HTTP POST request to the satellite with a JSON body.
+##                 The body will be read from stdin.
+post () { check1 "$1"; do_post "$1" "$(cat)"; }
+##   info : Check if satellite is running and get info about satellite.
+info () { do_get /info; }
+##   available : List available test scripts.
+available() { do_get /available_tests; }
+##   spec [NAME] : Show specs for a given test script
+spec() { check1 "$1"; do_get /spec/"$1"; }
+##   pending : Show pending jobs
+pending() { do_get /jobs/pending; }
+##   running : Show running jobs
+running() { do_get /jobs/running; }
+##   expired : Show jobs that timed out
+expired() { do_get /jobs/timeout;  }
+##   errored : Show jobs that errored out
+errored() { do_get /jobs/error; }
+##   successful : Show jobs that completed successfully.
+successful()  { do_get /jobs/done; }
+##   job [ID] : Show information on a single job
+job() { check1 "$1"; do_get "/job/$1"; }
+##   sub [ID] : Show information on a single submission
+sub() { check1 "$1"; do_get "/submission/$1"; }
+##   sub_jobs [ID] : Get all jobs associated with a submission
+sub_jobs() { check1 "$1"; do_get "/submission_jobs/$1"; }
+##   subs : Show all submissions
+subs() { do_get /submissions; }
+##   submit : Submit job from stdin (example: cat spec.json | satctl submit)
+submit() { do_post /run "$(cat)"; }
+##   submit_file [JSONFILE] : Submit jobs specified in a json file
+submit_file() { check1 "$1"; do_post /run "@$1"; }
+##   log [ID] [LOGFILE] : Show a specific logfile
+log() { check2 "$1" "$2"; do_get "/job/$1/lograw/$2"; }
+##   cancel_job [ID] : Cancel a job
+cancel_job() { check1 "$1"; go_post "/cancel_job/$1"; }
+##   cancel_submission [ID] : Cancel a submission
+cancel_submission() { check1 "$1"; go_post "/cancel_submission/$1"; }
+
+# Run subcommand
+if [[ "$1" =~ ^(help|info|url|get|post|available|spec|pending|running|expired|errored|successful|job|sub|sub_jobs|subs|submit|submit_file|log|cancel_job|cancel_submission)$ ]]; then
+    $@
+else
+    help
+fi

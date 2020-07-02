@@ -1,0 +1,137 @@
+<div class="wrapper">
+
+    <!-- Select satellite and show subpages -->
+    <div class="left">
+        <select class="satellite-select" name="satellite" [(ngModel)]="selectedSatellite" (ngModelChange)="setSatellite()">
+            <option ngDefaultControl *ngFor="let s of availableSatellites;" [ngValue]="s.satellite_url">{{s.name}} ({{s.satellite_url}})</option>
+        </select>
+        <div class="inline" *ngIf="selectedSatellite">
+            <a class="div-button" routerLink="/satellite/{{encodedSatellite}}/info">Info</a>
+            <a class="div-button" routerLink="/satellite/{{encodedSatellite}}/submit">Submit Jobs</a>
+            <a class="div-button" routerLink="/satellite/{{encodedSatellite}}/submissions">Submissions</a>
+            <a class="div-button" routerLink="/satellite/{{encodedSatellite}}/jobs">Jobs</a>
+        </div>
+        <h2 class="inline">{{subpage | titlecase }}</h2>
+    </div>
+
+    <!-- Show satellite information -->
+    <div class="right">
+
+        <ng-container [ngSwitch]="subpage">
+
+            <!-- Basic Info -->
+            <div *ngSwitchCase="'info'">
+                <app-dense-table [data]="satelliteFullInfo" [columns]="['key', 'value']"></app-dense-table>
+            </div>
+
+            <!-- Show Submissions -->
+            <div *ngSwitchCase="'submissions'">
+                <div class="div-button" (click)="getSubmissions()">Refresh</div>
+                <div class="pagination">
+                    <label for="rpp">Rows per Page</label><input name="rpp" class="num-input" type="number" min="5" max="500" step="1" [(ngModel)]="rowsPerPage" (change)="getSubmissions()">
+                    <label for="page">Page</label><input name="page" class="num-input" type="number" min="1" [max]="submissionsNumPages" [(ngModel)]="currentPage" (change)="getSubmissions()">
+                </div>
+                <app-dense-table [(data)]="allSubmissions" [columns]="submissionCols" [mapping]="tableMapping"></app-dense-table>
+            </div>
+
+            <!-- Show jobs -->
+            <div *ngSwitchCase="'jobs'">
+                <div class="div-button" (click)="getJobs()">Refresh</div>
+                <div class="pagination">
+                    <label for="rpp">Rows per Page</label><input name="rpp" class="num-input" type="number" min="5" max="500" step="1" [(ngModel)]="rowsPerPage" (change)="getJobs()">
+                    <label for="page">Page</label><input class="num-input" type="number" min="1" [max]="jobsNumPages" [(ngModel)]="currentPage" (change)="getJobs()">
+                </div>
+                <app-dense-table [(data)]="allJobs" [columns]="jobCols" [mapping]="tableMapping"></app-dense-table>
+            </div>
+
+            <!-- Show one job -->
+            <div *ngSwitchCase="'job'">
+                <div class="div-button" (click)="getSelectedJob()">Refresh</div>
+                <div class="div-button" (click)="cancelSelectedJob()">Cancel</div>
+                <app-dense-table [data]="selectedJobInfo" [columns]="jobCols" [mapping]="tableMapping2"></app-dense-table>
+
+                <!-- Job Log files -->
+                <h3>Log Files</h3>
+                <div *ngIf="selectedJobInfo">
+                    <select class="log-select" *ngIf="selectedJobInfo.length" [(ngModel)]="selectedJobLog" (ngModelChange)="getJobLogData()">
+                        <option ngDefaultControl *ngFor="let log of selectedJobInfo[0].logs;" [ngValue]="log">{{log}}</option>
+                    </select>
+                    <a class="link" *ngIf="selectedJobLog" [href]="selectedSatellite+'/job/'+itemid+'/lograw/'+selectedJobLog">Raw</a>
+                </div>
+                <div class="status-panel" *ngIf="logTooLarge">File is too large for embedded preview, see raw file or download.</div>
+                <app-inline-file *ngIf="selectedJobLogData != null" [fileName]="selectedJobLog" [bodyText]="selectedJobLogData"></app-inline-file>
+            </div>
+
+            <!-- Show one submission -->
+            <div *ngSwitchCase="'submission'">
+                <div class="div-button" (click)="getSelectedSubmission()">Refresh</div>
+                <div class="div-button" (click)="cancelSelectedSubmission()">Cancel</div>
+                <app-dense-table [data]="selectedSubmissionInfo" [columns]="submissionCols" [mapping]="tableMapping2"></app-dense-table>
+
+                <h3>Jobs</h3>
+                <!-- Show jobs associated with submission -->
+                <app-dense-table [(data)]="submissionJobs" [columns]="['job_id', 'name', 'params', 'status', 'return_code', 'started', 'finished', 'submission_id', 'submitted']"
+                    [mapping]="tableMapping2"></app-dense-table>
+            </div>
+
+            <!-- Submit jobs -->
+            <div *ngSwitchCase="'submit'">
+                <ng-container *ngIf="selectedSatelliteInfo">
+                    <div class="padded">
+                        <h4>Submission Specs</h4>
+                        <app-param-chooser [(params)]="submissionParams" [(model)]="submissionModel"></app-param-chooser>
+                    </div>
+                    <hr>
+                    <!-- Test spec to add -->
+                    <div class="padded"><h4>Select Test</h4></div>
+                    <div class="flex">
+                        <select class="satellite-select" name="test" [(ngModel)]="selectedTest"
+                            (ngModelChange)="changeTest()">
+                            <option ngDefaultControl *ngFor="let test of selectedSatelliteInfo.valid" [ngValue]="test">{{test.name}}</option>
+                        </select>
+                        <div *ngIf="selectedTest" class="test-description">
+                            {{selectedTest.spec.description}}
+                        </div>
+                    </div>
+                    <hr>
+                    <div *ngIf="selectedTest">
+                        <div class="padded">
+                            <h4>Select Parameters</h4>
+                            <app-param-chooser [(params)]="testParams" [(model)]="jobModel"></app-param-chooser>
+                            <!-- Add current test to job specs -->
+                            <div class="div-button" (click)="addSpec()">Add Test {{selectedTest.name}} to Job Specs</div>
+                        </div>
+                        <hr/>
+                    </div>
+                    <!-- Current specs in submission -->
+                    <div class="padded">
+                        <h4>Job Specs</h4>
+                        <div class="speclist" *ngFor="let spec of jobSpecs; let i = index">
+                            <div class="div-button" (click)="removeSpec(i)">&#x2796;</div>
+                            <div class="div-button" (click)="cloneSpec(i)">Clone</div>
+                            <code>{{makeCliString(spec)}}</code>
+                        </div>
+                    </div>
+                    <!-- Various other options -->
+                    <hr *ngIf="jobSpecs.length">
+                    <!-- Submit -->
+                    <div class="padded">
+                        <button class="big-button" mat-flat-button [disabled]="!jobSpecs.length" (click)="submit()">Submit</button>
+                        <app-spinner *ngIf="isSubmitting"></app-spinner>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+
+    <!-- Show error and status -->
+    <div class="padded">
+        <div class="error-panel" *ngIf="errorMessages.length">
+            <pre *ngFor="let errorMessage of errorMessages; let i = index"><span class="div-button" (click)="dropError(i)">&#x274c;</span><code>{{errorMessage}}</code></pre>
+        </div>
+        <div *ngIf="statusMessage" class="status-panel">
+            <span>Submission: </span><a routerLink="../submission/{{statusMessage.submission_id}}">{{statusMessage.submission_id}}</a>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,51 @@
+<div>
+    <mat-form-field>
+        <mat-label>Teams</mat-label>
+        <mat-select [(ngModel)]="team" (ngModelChange)="getOpsDetails()">
+            <mat-option *ngFor="let team of teams" [value]="team.name">
+                {{team.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div>
+    <mat-form-field>
+        <mat-label>Open Since</mat-label>
+        <mat-select [(ngModel)]="days">
+            <mat-option *ngFor="let days of open_since" [value]="days">
+                {{days}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div *ngIf="ops">
+<table>
+    <tr>
+        <th>Project</th>
+        <th>Group</th>
+        <th>Owner</th>
+        <th>Owner Email</th>
+        <th>Wiki</th>
+    </tr>
+    <tr *ngFor="let project of ops">
+        <td>{{project.ops_name}}</td>
+        <td>{{project.grp_name}}</td>
+        <td>{{project.owner_name}}</td>
+        <td>{{project.email}}</td>
+        <td><a href="{{project.wiki}}" target="_blank">{{project.wiki}}</a></td>
+    </tr>
+</table>
+<mat-accordion *ngIf="team && days">
+    <div>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Open Bugs
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-nvbugs [team_name] = "team" [days]="days">
+            </app-nvbugs>
+        </mat-expansion-panel>
+    </div>
+</mat-accordion>
+</div>

@@ -1,0 +1,17 @@
+.cell {
+    display: flex;
+    justify-content: flex-start;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.expand {
+    font-size: 1.3em;
+    color: #999;
+}
+.expand:hover {
+    color: #bbb;
+    cursor: pointer;
+}

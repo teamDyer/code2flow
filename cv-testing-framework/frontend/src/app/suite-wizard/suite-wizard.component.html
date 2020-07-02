@@ -1,0 +1,9 @@
+<div class="wrapper">
+
+    <app-param-chooser [(params)]="wizardParams" [model]="wizardModel" (modelChange)="refresh()"></app-param-chooser>
+
+    <div *ngIf="wizardError" class="error-panel">
+        {{wizardError}}
+    </div>
+
+</div>

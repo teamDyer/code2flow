@@ -1,0 +1,51 @@
+<!-- User options (parameters) to configure a options object -->
+<table class="param-table">
+    <tr *ngFor="let param of parameterDescriptions; trackBy: trackByFn">
+        <th><span title="{{param.doc}}">{{param.name}}:</span></th>
+        <td [ngSwitch]="param.type">
+            <!-- TODO handle other parameter types (ranges) -->
+            <input *ngSwitchCase="'nat'" type="number" [name]="param.name" [(ngModel)]="model[param.name]" min="0" step="1"
+                (change)="refresh()">
+            <input *ngSwitchCase="'integer'" type="number" [name]="param.name" [(ngModel)]="model[param.name]" step="1"
+                (change)="refresh()">
+            <input *ngSwitchCase="'boolean'" type="checkbox" [name]="param.name" [(ngModel)]="model[param.name]"
+                (change)="refresh()">
+            <input *ngSwitchCase="'string'" type="text" [name]="param.name" [(ngModel)]="model[param.name]"
+                (change)="refresh()">
+            <textarea *ngSwitchCase="'text'" rows="4" cols="48" [name]="param.name" [(ngModel)]="model[param.name]"
+                (change)="refresh()"></textarea>
+            <input *ngSwitchCase="'real'" type="number" [name]="param.name" [(ngModel)]="model[param.name]"
+                (change)="refresh()">
+            <input *ngSwitchCase="'date'" type="date" [name]="param.name" [ngModel]="model[param.name] | date:'yyyy-MM-dd'" (ngModelChange)="model[param.name] = $event"
+                pattern="\d{4}-\d{2}-\d{2}"
+                (change)="refresh()">
+            <!-- Don't use html5 select multiple directly here, because it sucks -->
+            <div *ngSwitchCase="'some'" class="multi-wrap">
+                <select *ngSwitchCase="'some'" [name]="param.name" [(ngModel)]="transientModel[param.name]" multiple>
+                    <option *ngFor="let opt of param.options" [ngValue]="opt">
+                        {{opt}}
+                    </option>
+                </select>
+                <div class="plus-button" (click)="addValuesToMulti(model, param.name, transientModel[param.name], param.no_duplicates)">&#x2795;</div>
+                <ul>
+                    <li *ngFor="let item of model[param.name], let i = index">
+                        <div class="plus-button" (click)="removeValueFromMulti(model, param.name, i)">&#x2796;</div>{{item}}
+                    </li>
+                </ul>
+            </div>
+            <select *ngSwitchDefault [name]="param.name" [(ngModel)]="model[param.name]" (change)="refresh()">
+                <!-- Not sure if this is the best way to handle optional/default parameters 
+                                - iff optional, add N/A field
+                                - iff not optional, set initial value to either a provided default, or the first available option.
+                      however, the user cannot later reselect this option
+                    - In all cases, show all available options.
+                -->
+                <option *ngIf="param.optional" [ngValue]="undefined">N/A</option>
+                <option *ngIf="!param.optional" style="display:none" disabled selected [ngValue]="param.default || param.options[0]">{{param.default || param.options[0]}}</option>
+                <option *ngFor="let opt of param.options" [ngValue]="opt">
+                    {{opt}}
+                </option>
+            </select>
+        </td>
+    </tr>
+</table>

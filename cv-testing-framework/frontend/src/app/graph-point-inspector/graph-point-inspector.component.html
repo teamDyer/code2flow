@@ -1,0 +1,36 @@
+<div #mainEl class="main" 
+  [style.opacity]="showPoint && !doingMeasurement ? '1' : '0'"
+  [style.z-index]="showPoint && !doingMeasurement ? '1' : '-10000'"
+  [style.margin-top.px] = "y + oy"
+  [style.margin-left.px] = "x + ox"
+  [style.border-top-left-radius] = "!goUp && goRight ? '0' : '16px'"
+  [style.border-top-right-radius] = "!goUp && !goRight ? '0' : '16px'"
+  [style.border-bottom-left-radius] = "goUp && goRight ? '0' : '16px'"
+  [style.border-bottom-right-radius] = "goUp && !goRight ? '0' : '16px'">
+  <span [style.text-align]="goRight ? 'left' : 'right'" [style.border-top-left-radius]="!goUp && goRight ? '0' : '16px'"
+    [style.border-top-right-radius]="!goUp && !goRight ? '0' : '16px'" class="x-button" (click)="hide()">&#10060;</span>
+  <div class="scroll-wrap">
+    <table class="main-table">
+      <tr *ngFor="let kv of kvs">
+        <th>{{kv.key}}</th>
+        <td [ngSwitch]="kv.key">
+          <!-- Special case certain columns here -->
+          <a *ngSwitchCase="'id'" [routerLink]="'/job/'+system+'/'+test+'/'+kv.value">{{test}} ({{system}}) - {{kv.value}}</a>
+          <ul *ngSwitchCase="'ids'">
+            <li *ngFor="let x of getValues(kv.value)">
+              <a [routerLink]="'/job/'+system+'/'+test+'/'+x">{{test}} ({{system}}) - {{x}}</a>
+            </li>
+          </ul>
+          <a *ngSwitchCase="'original_id'" [href]="'http://ausvrl/showjob.php?job='+kv.value">VRL serial - {{kv.value}}</a>
+          <a *ngSwitchCase="'vrl_serial'" [href]="'http://ausvrl/showjob.php?job='+kv.value">VRL serial - {{kv.value}}</a>
+          <span *ngSwitchCase="'time_start'">{{kv.value | date:'short'}}</span>
+          <span *ngSwitchCase="'time_stop'">{{kv.value | date:'short'}}</span>
+          <pre class="subtest_results" *ngSwitchCase="'jobs'">{{kv.value | json}}</pre>
+          <pre class="subtest_results" *ngSwitchCase="'subtest_results'">{{kv.value | json}}</pre>
+          <!-- All other columns should be hanlded normally, simply converted to a string -->
+          <span *ngSwitchDefault>{{kv.value}}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

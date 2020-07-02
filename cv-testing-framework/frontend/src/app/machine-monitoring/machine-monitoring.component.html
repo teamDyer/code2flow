@@ -1,0 +1,58 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Machine Pools
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-form-field class="filter">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Example: aus-" class='filter'>
+      </mat-form-field>
+      <table mat-table [dataSource]="machinePoolData" class="mat-elevation-z8">
+      
+        <!-- machine Name Column -->
+        <ng-container matColumnDef="machine_name">
+          <th mat-header-cell *matHeaderCellDef> Machine Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.machine_name}} </td>
+        </ng-container>
+      
+        <!-- gpu Column -->
+        <ng-container matColumnDef="gpu">
+          <th mat-header-cell *matHeaderCellDef> gpu </th>
+          <td mat-cell *matCellDef="let element"> {{element.gpu}} </td>
+        </ng-container>
+      
+        <!-- pool name Column -->
+        <ng-container matColumnDef="pool_name">
+          <th mat-header-cell *matHeaderCellDef> Pool Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.pool_name}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+</mat-expansion-panel>
+
+<mat-form-field>
+    <mat-label>Days</mat-label>
+    <mat-select [(ngModel)]="days" (ngModelChange)="getmmdata()">
+        <mat-option *ngFor="let days of days_list" [value]="days">
+            {{days}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Filter By</mat-label>
+    <mat-select [(ngModel)]="filter" (ngModelChange)="getmmdata()">
+        <mat-option *ngFor="let filter of filters" [value]="filter">
+            {{filter}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<br>
+<div *ngIf="mastergd" class="wrap">
+    <div *ngFor="let gpu of mastergd | keyvalue" class="graph">
+        <app-lineg [(xaxisLabels)]="xlabels" [(yaxisLabel)]="filter" [(chartHeader)]="gpu.key" [(dataSets)]="gpu.value"></app-lineg>
+    </div>
+</div>

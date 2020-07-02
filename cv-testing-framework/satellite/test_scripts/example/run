@@ -1,0 +1,24 @@
+#!/bin/bash
+
+rec() {
+  if [[ $1 -gt 0 ]]
+  then
+    rec $[ $1 - 1 ] | while read line ; do 
+      echo "$line" | sed "s/d/dd/g" | sed "s/x/dxd/g"
+      echo "$line" | sed "s/d/dd/g" | sed "s/x/xsx/g"
+    done
+  else 
+    echo "x"
+  fi
+}
+
+# Sierpinski triangle
+sirp () {
+    rec $1 | tr 'dsx' '  *'
+}
+ 
+echo "Starting script example!"
+echo "Arguments: $*"
+sirp $arg_repetitions
+echo '{"payload":"hello, world", "original_id":' $RANDOM '}' > results.json
+echo "Done"

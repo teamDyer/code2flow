@@ -1,0 +1,27 @@
+<mat-card class="card-container">
+  <div class="align-center">
+    <h1>Submit Job</h1>
+  </div>
+  <mat-card-content>
+    <form [formGroup]="testSubmission">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Unit Under Test</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="align-center">
+          <app-unit-under-test unit="DVS" [parentForm]="testSubmission"></app-unit-under-test>
+        </mat-card-content>
+      </mat-card>
+      <app-submit-vrl-job [parentForm]="testSubmission"> </app-submit-vrl-job>
+    </form>
+  </mat-card-content>
+  <div *ngIf="badSubmit" class="error-panel">
+    {{badSubmitError}}
+  </div>
+  <mat-card-actions class="align-right">
+  <input class="job-submit" type="submit" style="text-align:center" value="Submit Test Run" 
+    (click)="submitJob()" />
+  <div *ngIf="showResults" class="success-panel">
+    Submitted Job(s) {{resultJobs}} (<a href="http://ausvrl/showjob.php?job={{resultJobs}}">VRL link</a>)
+  </div>
+    

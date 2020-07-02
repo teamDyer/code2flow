@@ -1,0 +1,107 @@
+<div [formGroup]="parentForm">
+    <div>
+        <mat-label for="package_source">Package Source</mat-label>
+        <mat-select class="submit-job-input" name="package_source" formControlName="package_source"
+            placeholder="Select Package Source">
+            <mat-option *ngFor="let source of sourceList" [value]="source.key">
+                {{source.value}}
+            </mat-option>
+        </mat-select>
+    </div>
+
+    <div>
+        <mat-label for="build">Build</mat-label>
+        <mat-select class="submit-job-input" name="build" formControlName="package_build" placeholder="Select Build"
+            (ngModelChange)="filterPackageList()">
+            <mat-option *ngFor="let build of buildList" [value]="build.key">
+                {{build.value}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div>
+        <mat-label for="operatingSystem">Operating System</mat-label>
+        <mat-select class="submit-job-input" name="operatingSystem" formControlName="operatingSystem"
+            placeholder="Select Operating System" (ngModelChange)="filterPackageList()">
+            <mat-option *ngFor="let operatingSystem of operatingSystemList" [value]="operatingSystem">
+                {{operatingSystem.value}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div>
+        <mat-label for="package_branch">Branch</mat-label>
+        <mat-select class="submit-job-input" name="package_branch" formControlName="package_branch"
+            placeholder="Select Package Branch" (ngModelChange)="filterPackageList()">
+            <mat-option *ngFor="let package_branch of branchList" [value]="package_branch.key">
+                {{package_branch.value}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div>
+        <mat-label for="package_name">Package Name</mat-label>
+        <mat-select class="submit-job-input" name="package_name" formControlName="package_name"
+            placeholder="Select Package" (ngModelChange)="filterChangeList()">
+            <mat-option *ngFor="let package of packageList" [value]="package.name" [matTooltip]="package.name"
+                matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">
+                {{package.name}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div>
+        <mat-label for="isolation_mode">Isolation Mode</mat-label>
+        <mat-select class="submit-job-input" name="isolation_mode" formControlName="isolation_mode"
+            placeholder="Select Isolation Mode" (ngModelChange)="filterChangeList()">
+            <mat-option *ngFor="let mode of isolation_modes" [value]="mode.key">
+                {{mode.value}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div *ngIf='parentForm.value.isolation_mode === "REGULAR"'>
+        <mat-label for="changelist">Changelist</mat-label>
+        <mat-select class="submit-job-input" name="changelist" formControlName="package_changelist"
+            placeholder="Select Changelist" (ngModelChange)="setPackageUrls()">
+            <mat-option *ngFor="let cl of changeList" [value]="cl.changelist">
+                {{cl.changelist}}
+            </mat-option>
+        </mat-select>
+    </div>
+    <div *ngIf='parentForm.value.isolation_mode === "BRS" || parentForm.value.isolation_mode === "SIS"'>
+        <mat-label for="first_changelist">First Changelist</mat-label>
+        <mat-select class="submit-job-input" name="first_changelist" formControlName="first_changelist"
+            placeholder="Select First Changelist" (ngModelChange)="updateAvailableCls()">
+            <mat-option *ngFor="let cl of changeList" [value]="cl.changelist"
+                [disabled]="parentForm.value.last_changelist != null && parentForm.value.last_changelist < cl.changelist">
+                {{cl.changelist}}
+            </mat-option>
+        </mat-select>
+        <br />
+        <mat-label for="last_changelist">Last Changelist</mat-label>
+        <mat-select class="submit-job-input" name="last_changelist" formControlName="last_changelist"
+            placeholder="Select Last Changelist" (ngModelChange)="updateAvailableCls()" >
+            <mat-option *ngFor="let cl of changeList" [value]="cl.changelist"
+                [disabled]="parentForm.value.first_changelist != null && cl.changelist < parentForm.value.first_changelist">
+                {{cl.changelist}}
+            </mat-option>
+        </mat-select>
+        <br/>
+        <div *ngIf='parentForm.value.isolation_mode === "SIS"'>
+            <mat-label>Select Changelists</mat-label>
+            <mat-selection-list class="submit-job-input" name="selected_changelists"  
+                formControlName="selected_changelists" placeholder="Select Changelists" (ngModelChange)="setPackageUrls()">
+            <mat-list-option checkboxPosition="before" *ngFor="let cl of getAvailableChangelists()" 
+                    [value]="cl.changelist">
+                    {{cl.changelist}}
+            </mat-list-option>
+            <mat-option *ngIf="parentForm.value.first_changelist == null || parentForm.value.last_changelist == null">
+                Select First and Last Changelist</mat-option>
+            </mat-selection-list>
+        </div>        
+    </div>
+    <div>
+        <mat-label for="note">Note</mat-label>
+        <textarea class="submit-job-input" name="note" formControlName="note"
+            placeholder="Enter note here..."></textarea>
+    </div>
+    <div *ngIf="err != null" class="error-panel">
+        {{err}}
+    </div>
+</div>

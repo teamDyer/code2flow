@@ -1,0 +1,19 @@
+<div class="content-wrap">
+  <div class="center-box">
+    <h1>
+      Login
+    </h1>
+
+    <form class="login-form">
+      <input class="login-input" matInput placeholder="Username" name="username" [(ngModel)]="username">
+      <input class="login-input" matInput placeholder="Password" name="password" type="password" [(ngModel)]="password">
+      <button *ngIf="!loading" mat-button (click)="login()">Submit</button>
+    </form>
+
+    <app-spinner *ngIf="loading"></app-spinner>
+
+    <div class="error-panel" *ngIf="showBad">
+      Bad login credentials.
+    </div>
+  </div>
+</div>

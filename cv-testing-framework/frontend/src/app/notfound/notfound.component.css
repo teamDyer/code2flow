@@ -1,0 +1,14 @@
+.content-wrap {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+}
+
+.center-box {
+    margin: auto;
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+}

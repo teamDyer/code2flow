@@ -1,0 +1,99 @@
+.wrapper {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.selected-visualizer {
+    flex-grow: 1;
+}
+
+.available-views {
+    margin: 10px;
+}
+
+.available-views span {
+    margin: 0 10px;
+}
+
+.param-table th, .param-table td {
+    padding: 5px;
+}
+
+.param-table th {
+    text-align: right;
+    border-right: solid 1px #ccc;
+}
+
+.param-table input, .param-table select {
+    padding: 3px;
+    background: #EEE;
+}
+
+.param-table {
+    margin: 15px;
+}
+
+.param-table textarea {
+    background: #EEE;
+    padding: 5px;
+    margin: 5px;
+}
+
+.refresh {
+    margin: 10px;
+    padding: 10px;
+}
+
+.view-data {
+    background: #eee;
+    padding: 10px;
+    margin: 5px;
+}
+
+.error-panel {
+    background: #FCC;
+    padding: 10px;
+    margin: 5px;
+}
+
+.graph-title {
+    display: inline-block;
+    font-size: 1.4em;
+    font-family: Rubik, sans-serif;
+}
+
+.titleblock {
+    padding-right: 30px;
+}
+
+.titleblock select {
+    background: #eee;
+}
+
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.graphnav-prev {
+    transform: rotate(135deg);
+}
+
+.graphnav-next {
+    transform: rotate(-45deg);
+}
+
+.top-block {
+    display: flex;
+    flex-direction: row;
+}
+
+.query-render-select {
+    padding: 3px;
+    background: #EEE;
+    margin-right: 20px;
+}
+

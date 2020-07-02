@@ -1,0 +1,20 @@
+<div *ngIf="showLogin" class="center">
+  <app-login></app-login>
+</div>
+
+<div class="filter" *ngIf="showStatus">
+  <mat-icon class="filter">search</mat-icon>
+  <input class="filter" [(ngModel)]="testNameFilter" type="text" placeholder="Filter Test Name">
+</div>
+
+
+<div *ngIf="showStatus">
+  <a routerLink="/view/{{row.system}}/{{row.name}}" *ngFor="let row of testsToShow">
+    <mat-card>
+      <mat-icon matTooltip="Multi Charts">
+        multiline_chart
+      </mat-icon>
+      {{row.name}} ({{row.system}})
+    </mat-card>
+  </a>
+</div>

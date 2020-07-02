@@ -1,0 +1,45 @@
+<!-- Summary table -->
+<table *ngIf="rows && rows.length && (showCounts || autoPaginate)" class="summary-table">
+    <tr>
+        <ng-container *ngIf="showCounts">
+            <th>Rows</th>
+            <td>{{rows.length}}</td>
+            <th>Columns</th>
+            <td>{{headers.length}}</td>
+        </ng-container>
+        <ng-container *ngIf="autoPaginate">
+            <th>Rows per Page</th>
+            <td>
+                <input class="num-input" type="number" min="5" max="200" step="1" [(ngModel)]="rowsPerPage"
+                    (change)="render()">
+            </td>
+            <th>Page</th>
+            <td>
+                <input class="num-input" type="number" min="1" [max]="numPages" [(ngModel)]="currentPage"
+                    (change)="render()">
+            </td>
+            <th>Pages</th>
+            <td>
+                {{numPages}}
+            </td>
+        </ng-container>
+    </tr>
+</table>
+
+<!-- Main table -->
+<table class="dense-table">
+    <tr>
+        <th *ngFor="let header of headers">
+            <div class="table-row">
+                {{header}}
+            </div>
+        </th>
+    </tr>
+    <ng-container *ngIf="data">
+        <tr *ngFor="let row of data">
+            <td *ngFor="let header of headers">
+                <app-dense-table-cell [header]="header" [data]="row[header]" [mapping]="mapping"></app-dense-table-cell>
+            </td>
+        </tr>
+    </ng-container>
+</table>

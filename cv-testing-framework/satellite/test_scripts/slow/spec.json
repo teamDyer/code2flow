@@ -1,0 +1,11 @@
+{
+    "description": "Example test. Runs in a loop, printing to stdout.",
+    "parameters": [
+        {
+            "name": "iterations",
+            "type": "nat",
+            "doc": "Number of loop iterations to run",
+            "optional": false
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+/.venv
+/job_logs
+/job_logs_2
+/job_logs_stage
+__pycache__
+/build
+/dist
+/satellite.spec
+satellite.db
+satellite2.db
+sat_stage.db

@@ -1,0 +1,30 @@
+.content-wrap {
+    padding: 10px;
+}
+
+.gobutton {
+    padding: 20px;
+    font-size: 1.2em;
+    background: #88C;
+    color: white;
+}
+
+.url-in {
+    padding: 20px;
+    min-width: 500px;
+    font-size: 1.2em;
+    background: #eee;
+}
+
+.error-message {
+    padding: 20px;
+    background: #fbb;
+    border: solid #f88 2px;
+    margin-top: 20px;
+}
+
+.api-result {
+    padding: 20px;
+    margin-top: 20px;
+    background: #eee;
+}

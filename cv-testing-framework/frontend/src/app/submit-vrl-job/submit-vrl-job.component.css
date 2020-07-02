@@ -1,0 +1,48 @@
+mat-selection-list {
+    max-height: 200px;
+    max-width: 800px;
+    overflow: auto;
+    padding: 4px;
+    /* background: #eee; */
+    word-wrap: break-word;
+    display: inline-block;
+    font-family: Helvetica;
+}
+
+.mat-selection-radio {
+    margin-top: 10px;
+    margin-left: 155px;
+    font-family: Helvetica;
+    padding: 5px;
+    border: solid #8E8C8B 1px;
+    width: 400px !important;
+    text-align: left;
+    border-radius: 20px;
+}
+
+.mat-radio-label {
+    margin-left: 35px;
+    font-family: Helvetica;
+    min-width: 150px;
+    display: inline-block;
+    text-align: left;
+    font-weight: bold;
+}
+
+.mat-list-custom-text {
+    font-family: Helvetica;
+    font-weight: normal;
+}
+
+.test-border {
+    margin-left: 10px;
+    border: 1.5px double rgb(134, 175, 38);
+    width:50%;
+}
+
+.mat-list-item-disabled{
+    background: #fff;
+}
+.mat-pseudo-checkbox-disabled{
+    color: #bbb;
+}

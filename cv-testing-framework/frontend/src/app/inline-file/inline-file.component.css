@@ -1,0 +1,27 @@
+pre {
+    padding: 10px;
+    background: #eee;
+    overflow: auto;
+    min-height: 400px;
+    resize: vertical;
+}
+
+.filename {
+    padding: 8px;
+    background: #ddd;
+}
+
+.line {
+    display: block;
+    counter-increment: line-number;
+}
+
+.line:before {
+    content: counter(line-number);
+    display: inline-block;
+    border-right: 1px solid #ddd;
+    padding: 0 .5em;
+    margin-right: .5em;
+    color: #888;
+    min-width: 3em;
+}

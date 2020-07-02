@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Compiler Verification Testing</title>
+
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <link rel="icon" type="image/x-icon" href="assets/favicon.jpg">
+</head>
+<body>
+  <!-- Because nginx wasn't behaving -->
+  <script>
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf('MSIE ');
+    var trident = ua.indexOf('Trident/');
+    if (msie > 0 || trident > 0) {
+      document.write('You are using an old, unsupported browser. Switch to a supported browser such as modern builds of Chrome, Edge or Firefox to use this application.')
+    }
+  </script>
+  <app-root></app-root>
+</body>
+</html>

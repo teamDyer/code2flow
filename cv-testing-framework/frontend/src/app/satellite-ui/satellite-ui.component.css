@@ -1,0 +1,107 @@
+.wrapper {
+    padding: 10px;
+    display: flex;
+    max-width: 100vw;
+    flex-direction: column;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.test-description {
+    padding-top: 18px;
+}
+
+hr {
+    max-width: 800px;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.left {
+    padding-right: 20px;
+}
+
+hr {
+    padding: 1px;
+    margin: 4px;
+    background-color: #CCC;
+}
+
+.padded {
+    padding: 5px;
+}
+
+.speclist {
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.pagination {
+    padding-left: 150px;
+    display: inline-block;
+}
+
+.num-input {
+    padding: 3px;
+    background: #EEE;
+    margin: 5px;
+}
+
+.big-button {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #15e415;
+    color: white;
+    border: none;
+}
+
+.log-select {
+    margin: 10px;
+    padding: 3px;
+    background: #EEE;
+    font-family: Rubik, sans-serif
+}
+
+.satellite-select {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 3px;
+    background: #EEE;
+    font-size: 1.4em;
+    font-family: Rubik, sans-serif
+}
+
+.div-button {
+    padding: 0 8px;
+    display: inline-block;
+    color: #888;
+}
+
+.div-button:hover {
+    color: #ccc;
+    cursor: pointer;
+    user-select: none;
+}
+
+.error-panel {
+    background: #FCC;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.status-panel {
+    background: #FFC;
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}

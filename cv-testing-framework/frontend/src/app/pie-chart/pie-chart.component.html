@@ -1,0 +1,10 @@
+<app-graph-point-inspector #pointInspector
+    [position]='{x: pointX, y: pointY}'
+    [showPoint]='pointShow'
+    (shouldHide)='hideInspector()'></app-graph-point-inspector>
+<div class="wrap-everything" [hidden]="failedToRender">
+    <canvas (window:resize)="resize()" #chartCanvas></canvas>
+</div>
+<div [hidden]="!failedToRender" class="error-panel">
+    {{renderError}}
+</div>

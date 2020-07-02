@@ -1,0 +1,10 @@
+mat-selection-list {
+    max-height: 200px;
+    max-width: 800px;
+    overflow: auto;
+    padding: 4px;
+    /* background: #eee; */
+    word-wrap: break-word;
+    display: inline-block;
+    font-family: Helvetica;
+}

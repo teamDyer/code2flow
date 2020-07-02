@@ -1,0 +1,29 @@
+{
+    "description": "Simple example test script. Prints a Sierpinski Triangle to stdout.",
+    "parameters": [
+        {
+            "name": "repetitions",
+            "type": "integer",
+            "doc": "How nested should the triangle be?",
+            "optional": false
+        },
+        {
+            "name": "file",
+            "type": "choice",
+            "doc": "pick a file",
+            "optional": false,
+            "options": [
+                "default 1",
+                "default 2"
+            ],
+            "shell": "ls"
+        }
+    ],
+    "uploads": [
+        {
+            "results_file": "results.json",
+            "test_system": "vrl",
+            "test_name": "simple"
+        }
+    ]
+}

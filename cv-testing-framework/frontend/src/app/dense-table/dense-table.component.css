@@ -1,0 +1,46 @@
+.dense-table {
+    overflow: scroll;
+}
+
+.summary-table {
+    margin: auto;
+}
+
+.dense-table tr:hover {
+    background: rgb(143, 221, 107);
+}
+.dense-table tr:nth-child(1):hover {background: none;}
+
+.dense-table th, .summary-table th {
+    padding: 10px 4px;
+    text-align: center;
+    word-wrap: none;
+}
+
+.dense-table td {
+    padding: 2px 4px;
+}
+
+.summary-table td {
+    padding: 4px 8px;
+}
+
+.table-stat {
+    padding: 10px 4px;
+    text-align: center;
+}
+
+tr:nth-child(odd) {background: #DDD}
+tr:nth-child(even) {background: #EEE}
+tr:nth-child(1) {background: none;}
+
+.pagination {
+    padding-left: 150px;
+    display: inline-block;
+}
+
+.num-input {
+    padding: 3px;
+    background: #EEE;
+    margin: 5px;
+}

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script is invoked by makefile as the postgres user. It needs
+# to be run as the postgres user because the only way (I could figure out) to connect to
+# a completely default postgres cluster is through the postgres user.
+# Only runs on WSL ubuntu.
+
+# Activate our environment
+source backend/.venv/bin/activate
+
+# Move our database conf into place
+cp -f backend/db_setup/postgresql.conf /etc/postgresql/10/main/
+
+# Delete current cluster (postgres 10, main cluster)
+pg_dropcluster --stop 10 main
+
+# Bring up a new, default cluster.
+pg_createcluster --start 10 main
+
+service postgresql start
+
+# Initialize that new cluster with default settings.
+if [[ -z "${VERBOSE}" ]]; then
+    python backend/db_setup/create.py
+else
+    python backend/db_setup/create.py --verbose
+fi
+
+# Restart
+service postgresql restart

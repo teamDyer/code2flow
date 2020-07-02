@@ -1,0 +1,77 @@
+.all-bugs{
+    border-radius: 5px;
+    padding: 10px;
+    border-style: groove;
+}
+.project{
+    font-size: 12px;
+    color: Black;
+    text-decoration: none;
+    padding: 1px 1px;
+}
+.project-header{
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    color: Black;
+    text-decoration: none;
+    padding: 1px 1px;
+    border-style: groove;
+    border-width: 1px;
+    border-radius: 1px;
+    background-color: rgb(182, 160, 60);
+}
+.row-header{
+    color: #a78439;
+}
+.bug-details{
+    font-size: 12px;
+    color: Black;
+    text-decoration: none;
+    padding: 1px 1px;
+    border-width: 1px;
+    border-radius: 1px;
+}
+th, td {
+    border: 1px groove black;
+    border-collapse: collapse;
+}
+td {
+    padding: 2px;
+}
+table {
+    border: 1.5px double rgb(134, 175, 38);
+}
+
+/* Button */
+button {
+    display: table-cell;
+    font-size: 14px;
+    margin-left: 8px;
+    width: 120px;
+}
+
+.confirm_button {
+    background-color: rgb(165, 221, 109);
+}
+
+
+input {
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid rgb(251, 180, 25);
+}
+
+.error-panel {
+    background: #FCC;
+    padding: 10px;
+    margin: 5px;
+}
+
+.bug-delete-panel{
+    padding: 10px;
+    margin: 5px;
+    width: fit-content;
+}

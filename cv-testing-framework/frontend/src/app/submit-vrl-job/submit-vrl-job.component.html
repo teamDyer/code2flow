@@ -1,0 +1,93 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Tests</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="align-center">
+    <div [formGroup]="parentForm">
+      <div>
+        <mat-label>Test System</mat-label>
+        <mat-select class="submit-job-input" name="test_system" formControlName="test_system" 
+          placeholder="Select Test System" (ngModelChange)="getTestSystemDetails()">
+          <mat-option>-- None --</mat-option>
+          <mat-option *ngFor="let test_system of test_systems" [value]="test_system">
+            {{test_system}}
+          </mat-option>
+        </mat-select>
+      </div>
+      
+      <div>
+        <mat-label>Test Names</mat-label>
+        <mat-selection-list class="submit-job-input" name="test_names" formControlName="test_names"
+          placeholder="Select Test Names" (ngModelChange)="onTestNameSelectionChange($event)">
+          <app-spinner [style.position]="'absolute'" [style.padding]="'50px'" [style.z-index]="10" [hidden]="!waitingForTestNameQuery"></app-spinner>
+          <mat-list-option  checkboxPosition="before"
+            *ngFor="let test_name of test_names" [value]="test_name.name" [matTooltip]="test_name.name" 
+            matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">
+            {{test_name.name}}
+          </mat-list-option>
+          <mat-option *ngIf="show_placeholder_for_testnames" [matTooltip]="default_test_name_String" 
+            matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">{{default_test_name_String}}</mat-option>
+          <mat-option class="mat-list-custom-text" *ngIf="no_test_name_found" [matTooltip]="no_test_name_String" 
+          matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">{{no_test_name_String}}
+          </mat-option>
+        </mat-selection-list>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Target</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="align-center">
+    <div [formGroup]="parentForm">
+      <mat-radio-group name="radioOptForGPUAndMachineType" (change)="radioChange($event)">
+        <mat-radio-button value="gpuType">Specify by GPU type</mat-radio-button>
+        <br>
+        <mat-selection-list class="submit-job-input" disabled={{deselectGPUType}} class="mat-selection-radio"
+          name="gpu_names" formControlName="gpu_names">
+          <app-spinner [style.position]="'absolute'" [style.padding]="'50px'" [style.z-index]="10" [hidden]="!waitingForMachineConfigQuery"></app-spinner>
+          <mat-list-option class="mat-list-custom-text" checkboxPosition="before" 
+            *ngFor="let gpu_name of gpu_names" [value]="gpu_name">
+            {{gpu_name}}
+          </mat-list-option>
+          <mat-option class="mat-list-custom-text" *ngIf="show_placeholder_for_machineconfig" [matTooltip]="default_gpu_String" 
+            matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">{{default_gpu_String}}
+          </mat-option>
+          <mat-option class="mat-list-custom-text" *ngIf="no_machine_config_found" [matTooltip]="no_gpu_String" 
+            matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">{{no_gpu_String}}
+          </mat-option>
+        </mat-selection-list>
+        <br><br>
+        <h4 class="submit-vrl-job-input-h4">Machine Pool</h4>
+        <br>
+        <mat-select class="submit-vrl-job-input" placeholder="Select Machine Pool" disabled={{deselectGPUType}} name="machinepool_name" formControlName="machinepool_name">
+          <mat-option *ngFor="let machinepool_name of machinepool_names" [value]="machinepool_name">
+            {{machinepool_name}}
+          </mat-option>
+        </mat-select>
+        <br><br>
+        <mat-radio-button value="machineType">Specify by Machine</mat-radio-button>
+        <br>
+        <mat-selection-list disabled={{deselectMachineType}} class="mat-selection-radio"
+          name="machine_names" formControlName="machine_names">
+          <mat-list-option class="mat-list-custom-text" checkboxPosition="before"
+            *ngFor="let machine_name of machine_names" [value]="machine_name">
+            {{machine_name}}
+          </mat-list-option>
+          <mat-option class="mat-list-custom-text" *ngIf="show_placeholder_for_machineconfig" [matTooltip]="default_machine_name_String" 
+          matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">{{default_machine_name_String}}
+          </mat-option>
+          <mat-option class="mat-list-custom-text" *ngIf="no_machine_config_found" [matTooltip]="no_machine_name_String" 
+          matTooltipPosition="right" matTooltipClass="mat-custom-tooltip">{{no_machine_name_String}}
+          </mat-option>
+        </mat-selection-list>
+        <br><br>
+        <h4 class="submit-vrl-job-input-h4">Machine Name</h4>
+        <br>
+        <input type="text" class="submit-vrl-job-input" [attr.disabled]="deselectMachineType?'':null" name="machine_name_local" formControlName="machine_name_local"
+            placeholder="Enter machine name here...">
+      </mat-radio-group>
+    </div>
+  </mat-card-content>
+</mat-card>

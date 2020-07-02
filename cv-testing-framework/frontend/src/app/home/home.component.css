@@ -1,0 +1,25 @@
+.filter {
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+div {
+  width: fit-content;
+}
+
+a {
+  text-decoration: none;
+}
+
+mat-icon {
+  float: right;
+  padding-right: 5px;
+}
+
+mat-card {
+  font-size: 1.2em;
+}
+
+input {
+  padding-left: 20px;
+}

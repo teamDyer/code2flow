@@ -1,0 +1,70 @@
+image: docker:19.03.1
+
+variables:
+  CONTAINER_TEST_ID: comphub-test-container-$CI_JOB_ID
+  CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_TAGGED_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+  SATELLITE_CONTAINER_IMAGE: $CI_REGISTRY_IMAGE:satellite-build-$CI_COMMIT_REF_SLUG
+  SATELLITE_CONTAINER_TAGGED_IMAGE: $CI_REGISTRY_IMAGE:satellite-build-$CI_COMMIT_TAG
+
+before_script:
+  - uname -a
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+stages:
+  - build
+  - test
+  - staging
+  - deploy
+
+build:
+  stage: build
+  script:
+    - docker build -t $CONTAINER_IMAGE .
+    - docker push $CONTAINER_IMAGE
+
+build-satellite:
+  stage: build
+  script:
+    - docker build -t $SATELLITE_CONTAINER_IMAGE satellite/
+    - docker push $SATELLITE_CONTAINER_IMAGE
+    - docker rm temp_sat_container || true
+    - docker run --name temp_sat_container $SATELLITE_CONTAINER_IMAGE
+    - mkdir -p artifacts
+    - docker cp temp_sat_container:/satellite/dist/satellite artifacts/satellite
+    - docker cp temp_sat_container:/satellite/satctl artifacts/satctl
+    - docker rm temp_sat_container
+  artifacts:
+    paths:
+      - artifacts/satellite
+      - artifacts/satctl
+
+test-backend:
+  stage: test
+  after_script:
+    - docker kill $CONTAINER_TEST_ID
+  script:
+    - docker run --rm --name $CONTAINER_TEST_ID -d $CONTAINER_IMAGE
+    - sleep 20
+    - docker exec -w /app/backend $CONTAINER_TEST_ID pipenv run python -m unittest discover -v tests
+
+staging:
+  stage: staging
+  script:
+    - docker pull $CONTAINER_IMAGE
+    - docker -H tcp://chub-stage.nvidia.com service update --force --with-registry-auth --image $CONTAINER_IMAGE compiler-hub-staging
+  only:
+    - master
+
+deploy:
+  stage: deploy
+  script:
+    - docker pull $CONTAINER_IMAGE
+    - docker pull $SATELLITE_CONTAINER_IMAGE
+    - docker tag $CONTAINER_IMAGE $CONTAINER_TAGGED_IMAGE
+    - docker tag $SATELLITE_CONTAINER_IMAGE $SATELLITE_CONTAINER_TAGGED_IMAGE
+    - docker push $CONTAINER_TAGGED_IMAGE
+    - docker push $SATELLITE_CONTAINER_TAGGED_IMAGE
+    - docker -H tcp://cv-framework.nvidia.com service update --force --with-registry-auth --image $CONTAINER_TAGGED_IMAGE compiler-hub
+  only:
+    - tags

@@ -1,0 +1,11 @@
+.wrapper {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.error-panel {
+    background: #FCC;
+    padding: 10px;
+    margin: 5px;
+}

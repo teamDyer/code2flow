@@ -1,0 +1,39 @@
+#!/bin/bash
+export FLASK_ENV=test
+export PYTHONUNBUFFERED=TRUE
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+source db_setup/local_db_creds.sh
+export COMPILER_HUB_NO_SCRAPE=1
+
+# Run subprocesses
+gunicorn -R --bind 127.0.0.1:8000 app:app -w 1 --timeout 10000 --log-level debug &
+celery worker --loglevel=debug -c 4 -B -E &
+redis-server &
+
+# Capture child processes
+JOBS=`jobs -p`
+
+# Wait for everything to start
+sleep 3
+
+# Properly kill child processes on Ctrl-C
+kill_kids() {
+    pkill celery
+    for job in $JOBS
+    do
+        echo "Killing $job ..."
+        kill -9 "$job"
+    done
+    sleep 0.2
+    echo "--- Test Run Stopped ---"
+}
+
+# Run tests
+python -m unittest discover -v tests
+RESULT=$?
+
+# stop subprocesses
+kill_kids
+
+exit $RESULT

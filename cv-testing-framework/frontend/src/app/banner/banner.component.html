@@ -1,0 +1,21 @@
+<nav class="banner">
+  <img class="main-logo" src="assets/nvidia-logo.svg">
+  <span class="banner-title">Compiler Hub</span>
+
+  <div class="banner-sep"></div>
+
+  <a mat-button [class.selected]="topLevelPath === 'home'" class="banner-item" routerLink="/home">Home</a>
+  <a mat-button [class.selected]="topLevelPath === 'submit-job'" class="banner-item" routerLink="/submit-job">Submit Job</a>
+  <a mat-button [class.selected]="topLevelPath === 'ops'" class="banner-item" routerLink="/ops">OPS</a>
+  <a mat-button [class.selected]="topLevelPath === 'machine-monitoring'" class="banner-item" routerLink="/mm">Machine Monitoring</a>
+  <a mat-button [class.selected]="topLevelPath === 'monitor-job'" class="banner-item" routerLink="/monitor-job">Monitor Job</a>
+  <a mat-button [class.selected]="topLevelPath === 'satellite'" class="banner-item" routerLink="/satellite">Satellite</a>
+  <div class="banner-sep"></div>
+
+  <div *ngIf="loggedIn" class="status-div">
+    <span class="login-status">Logged in as {{username}}</span>
+    <div class="banner-sep"></div>
+    <a mat-button class="banner-item" (click)="logout()">Logout</a>
+  </div>
+
+</nav>

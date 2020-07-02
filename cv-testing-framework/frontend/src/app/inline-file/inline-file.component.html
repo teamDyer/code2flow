@@ -1,0 +1,5 @@
+<!-- This component shows an inline text file or snippet, complete with line numbers. -->
+<div>
+  <h4 class="filename">{{fileName}}</h4>
+  <pre><span class="line" *ngFor="let line of (bodyText | lineSplit)">{{line}}</span></pre>
+</div>

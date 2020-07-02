@@ -1,0 +1,14 @@
+.graph {
+    padding: 3px;
+    margin-top: 22px;
+}
+
+.wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+table, .filter {
+    width: 70%;
+}

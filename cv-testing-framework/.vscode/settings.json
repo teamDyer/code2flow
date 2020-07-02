@@ -1,0 +1,8 @@
+{
+    "python.venvPath": "${workspaceFolder}/backend",
+    "python.pythonPath": "${workspaceFolder}/backend/.venv/bin/python",
+    "python.jediEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintPath": "${workspaceFolder}/backend/.venv/bin/pylint"
+}

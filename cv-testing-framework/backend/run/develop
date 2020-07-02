@@ -1,0 +1,37 @@
+#!/bin/bash
+export FLASK_ENV=develop
+export PYTHONUNBUFFERED=TRUE
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+export COMPILER_HUB_DATABASE_CREDENTIALS="dbname=cvf2 user=postgres password=cvtf123! host=cv-framework.nvidia.com port=5431"
+export COMPILER_HUB_DATABASE_READONLY_CREDENTIALS="dbname=cvf2 user=postgres_readonly password=cvtf456! host=cv-framework.nvidia.com port=5431"
+export COMPILER_HUB_NO_SCRAPE=1
+
+# You can also use VSCode to run a development server that can be debugged.
+
+# Run subprocesses
+gunicorn -R --bind 127.0.0.1:8000 app:app -w 1 --timeout 10000 --reload --reload-engine poll --log-level debug &
+celery worker --loglevel=info -c 4 -B -E &
+redis-server &
+
+# Capture child processes
+JOBS=`jobs -p`
+
+# Properly kill child processes on Ctrl-C
+kill_kids() {
+    pkill celery
+    for job in $JOBS
+    do
+        echo "Killing $job ..."
+        kill -9 "$job"
+    done
+    sleep 0.2
+    echo "--- Develop Run Stopped ---"
+}
+trap kill_kids SIGTERM SIGINT SIGHUP
+
+# Wait for subprocesses
+for job in $JOBS
+do
+    wait $job
+done

@@ -1,0 +1,56 @@
+<div class="content-wrap">
+
+  <h1>{{testName}} ({{testSystem}})</h1>
+  <div class="flexwrap">
+    <div *ngIf="!showInfo" class="left">
+      <app-spinner></app-spinner>
+    </div>
+
+    <div *ngIf="showInfo" class="left">
+      <table>
+        <tbody>
+          <ng-container *ngFor="let item of testInfo">
+            <tr *ngIf="item.type !== 'none'">
+              <th scope="row">{{item.name | titlecase}}</th>
+              <td *ngIf="item.type == 'string'">{{item.value}}</td>
+              <td *ngIf="item.type == 'pre'">
+                <div class="notes">{{item.value}}</div>
+              </td>
+              <td *ngIf="item.type == 'link'"><a [href]="item.href">{{item.value}}</a></td>
+              <td *ngIf="item.type == 'table'">
+                <table class="subtable">
+                  <tbody>
+                    <tr *ngFor="let entry of item.value">
+                      <th>{{entry[0]}}</th>
+                      <td>{{entry[1]}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right Side -->
+    <div *ngIf="showInfo" class="subtests">
+      <h2>Subtests</h2>
+      <table>
+        <tbody>
+          <ng-container *ngFor="let item of subtests">
+            <tr *ngIf="item.type !== 'none'">
+              <th scope="row">{{item.name | titlecase}}</th>
+              <td *ngIf="item.type == 'string'">{{item.value}}</td>
+              <td *ngIf="item.type == 'pre'">
+                <div class="notes">{{item.value}}</div>
+              </td>
+              <td *ngIf="item.type == 'link'"><a [href]="item.href">{{item.value}}</a></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

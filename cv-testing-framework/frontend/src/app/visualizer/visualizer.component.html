@@ -1,0 +1,58 @@
+<div class="wrapper">
+
+    <!-- Header, show available tests and queries. -->
+    <div class="available-views">
+        <span class="titleblock">
+            <i class="graphnav-prev" (click)="traverse(-1)"></i>
+            <select type="number" class="graph-title" (change)="refresh()" [(ngModel)]="selectedTest">
+                <option *ngFor="let t of allTests" [ngValue]="t">{{t.name}} ({{t.system}})</option>
+            </select>
+            <i class="graphnav-next" (click)="traverse(1)"></i>
+        </span>
+
+        <span>Query: </span>
+        <select class="query-render-select" [(ngModel)]="query" (change)="refresh()">
+            <option *ngFor="let opt of availableQueries" [ngValue]="opt">
+                {{ opt }}
+            </option>
+        </select>
+
+        <span>Renderer: </span>
+        <select class="query-render-select" [(ngModel)]="renderer" (change)="refresh()">
+            <option *ngFor="let opt of availableRenderers" [ngValue]="opt">
+                {{ opt }}
+            </option>
+        </select>
+
+        <span>Show Parameters: </span>
+        <input name="params" type="checkbox" [(ngModel)]="expanded" (change)="resize()">
+        <!-- download querydata as csv -->
+        <span>
+            <app-exportcsv [(data)]="queryData" [(name)]="test"></app-exportcsv>
+        </span>
+    </div>
+
+    <div class="top-block" *ngIf="expanded">
+
+        <!-- User options (parameters) to configure the query -->
+        <app-param-chooser [(params)]="queryParams" [model]="queryParamModel" (modelChange)="refresh()"></app-param-chooser>
+
+        <!-- User configuration options for the renderer -->
+        <app-param-chooser [(params)]="renderParams" [model]="renderParamModel" (modelChange)="refresh()"></app-param-chooser>
+
+    </div>
+
+    <div *ngIf="queryError" class="error-panel">
+        {{queryError}}
+    </div>
+
+    <!-- Rendered Display -->
+    <div *ngIf="!hideVisualization" [ngSwitch]="renderer" class="selected-visualizer">
+        <app-spinner [style.position]="'absolute'" [style.padding]="'20px'" [style.z-index]="10" [hidden]="!waitingForQuery"></app-spinner>
+        <app-line-graph *ngSwitchCase="'line-graph'" [(data)]="queryData" [(paramModel)]="renderParamModel" [hideLabels]="renderLabels" (hideLabelsChange)="updateRenderLabels($event)"></app-line-graph>
+        <app-dense-table *ngSwitchCase="'table'" [(data)]="queryData" [(paramModel)]="renderParamModel" [showCounts]="true" [autoPaginate]="true" [mapping]="tableMapping"></app-dense-table>
+        <app-bar-chart *ngSwitchCase="'bar-chart'" [(data)]="queryData" [(paramModel)]="renderParamModel" [hideLabels]="renderLabels" (hideLabelsChange)="updateRenderLabels($event)"></app-bar-chart>
+        <app-pie-chart *ngSwitchCase="'pie-chart'" [(data)]="queryData" [(paramModel)]="renderParamModel"></app-pie-chart>
+    </div>
+
+</div>

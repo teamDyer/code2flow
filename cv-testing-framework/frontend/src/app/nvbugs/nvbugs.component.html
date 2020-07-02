@@ -1,0 +1,64 @@
+<p *ngIf="bugs"> Team is {{team_name}} </p>
+
+<input [(ngModel)]="bug_id" placeholder="Ex. 2981352" type="number" (input)="onChange()">
+
+<button mat-raised-button [disabled]="!bug_id" (click)="addBug()" class="confirm_button">
+    <mat-icon>add_box</mat-icon>
+    Add Bug
+</button>
+<button mat-raised-button [disabled]="!bug_id" (click)="confirmDelete()" color="warn">
+    <mat-icon>delete</mat-icon>
+    Delete Bug
+</button>
+
+<mat-card class="bug-delete-panel" *ngIf="showDelete && bug_id">
+    <span>Sure to Delete the bug {{bug_id}} from watch list?</span>
+    <button mat-stroked-button class='confirm_button' (click)="deleteBug()">
+        <mat-icon>delete</mat-icon>
+        Yes! Delete</button>
+    <button mat-button color="warn" (click)="cancelDelete()">Cancel</button>
+    </mat-card>
+
+<!-- <div class="success-panel" *ngIf="showSuccess">
+    {{bug_id}}: {{successMessage}}
+</div> -->
+
+<div class="error-panel" *ngIf="showError">
+    {{bug_id}}: {{errorMessage}}
+</div>
+
+<div *ngFor="let project of bugs | keyvalue" class='all-bugs'>
+    <div class='project'>
+        <div class='project-header'>
+            {{project.key}}
+        </div>
+        <div class='bug-details' *ngFor="let bug of project.value">
+            <table>
+                <tr>
+                    <td class='row-header'>
+                        Bug ID
+                    </td>
+                    <td class="row-value">
+                        <a href="http://nvbugs/{{ bug.BugId }}" target="_blank">{{ bug.BugId }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='row-header'>
+                        Bug Action
+                    </td>
+                    <td class="row-value">
+                        {{ bug.BugAction }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class='row-header'>
+                        Synopsis
+                    </td>
+                    <td class="row-value">
+                        {{ bug.Synopsis }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

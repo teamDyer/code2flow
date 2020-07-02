@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+
+[packages]
+flask = "*"
+pymysql = "*"
+requests = "*"
+flask-cors = "*"
+gunicorn = "*"
+ldap3 = "*"
+celery = {extras = ["redis"],version = "*"}
+psycopg2-binary = "*"
+jinjasql = "*"
+
+[requires]
+python_version = "3.6"

@@ -1,0 +1,3 @@
+# Local  logs
+*.log
+celerybeat-schedule

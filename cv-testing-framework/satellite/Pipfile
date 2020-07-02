@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+pyinstaller = "*"
+
+[packages]
+aiohttp = "*"
+aiodns = "*"
+asyncio = "*"
+jsonschema = "*"
+pyinstaller = "*"
+aiohttp-middlewares = "*"
+
+[requires]
+python_version = "3.6"

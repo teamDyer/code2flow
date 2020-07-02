@@ -1,0 +1,46 @@
+.param-table th, .param-table td {
+    padding: 2.5px 5px;
+}
+
+.param-table th {
+    text-align: right;
+    border-right: solid 1px #ccc;
+}
+
+.param-table input, .param-table select {
+    padding: 3px;
+    background: #EEE;
+}
+
+.param-table {
+    margin: 15px;
+}
+
+.param-table textarea {
+    background: #EEE;
+    padding: 5px;
+}
+
+ul {
+    list-style: none;
+}
+
+.multi-wrap {
+    display: flex;
+}
+
+.multi-wrap select {
+    max-height: 200px;
+}
+
+.plus-button {
+    padding: 0 8px;
+    display: inline-block;
+    color: #888;
+}
+
+.plus-button:hover {
+    color: #ccc;
+    cursor: pointer;
+    user-select: none;
+}

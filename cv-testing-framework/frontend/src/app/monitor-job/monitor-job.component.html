@@ -1,0 +1,10 @@
+<div class="content-wrapper">
+  <h1>Job(s) Running on VRL for user 'DVS'</h1>
+  <div *ngIf="showVisualization">
+    <app-auto-refresh 
+      (TimerExpired)="refresh()"
+      [ElapsTime]="'3'">
+    </app-auto-refresh>
+    <app-dense-table [(data)]="queryData" [(paramModel)]="renderParamModel"></app-dense-table>
+  </div>
+</div>

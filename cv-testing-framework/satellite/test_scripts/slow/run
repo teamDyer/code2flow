@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Parse arguments
+for i in "$@"
+do
+case $i in
+    --iterations=*)
+    REPS="${i#*=}"
+    shift
+    ;;
+    *)
+    echo "Unknown option: $i"
+    exit 1
+    ;;
+esac
+done
+
+for i in $(seq $REPS)
+do
+    echo "iteration $i"
+    sleep 1
+done
+echo "Done"
+
+echo "New Log File" > logfile.log

@@ -1,0 +1,45 @@
+.flexwrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.left {
+    padding: 10px;
+}
+
+.subtests {
+    padding: 10px;
+    font-size: 0.8em;
+}
+
+td {
+    padding-bottom: 5px;
+}
+
+th {
+    text-align: right;
+    padding-right: 10px;
+}
+
+td, th {
+    padding: 5px;
+    border: solid 1px #777;
+}
+
+.notes {
+    padding: 4px;
+    background: #eee;
+    max-width: 20em;
+    font-family: monospace;
+    word-wrap: break-word;
+}
+
+.subtest-name, .subtest-score {
+    font-size: 0.8em;
+}
+
+.subtable {
+    font-size: 0.8em;
+}
+

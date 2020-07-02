@@ -1,0 +1,38 @@
+{
+    "description": "Example test. Runs for 5 seconds and ignores its parameters.",
+    "parameters": [
+        {
+            "name": "nvvm_version",
+            "type": "choice",
+            "doc": "Pick a version of nvvm",
+            "optional": false,
+            "options": [
+                "9",
+                "10",
+                "11"
+            ]
+        },
+        {
+            "name": "test",
+            "type": "choice",
+            "doc": "Pick a compute test",
+            "optional": false,
+            "options": [
+                "cudart",
+                "cublas",
+                "cudarnn"
+            ]
+        },
+        {
+            "name": "triage",
+            "type": "choice",
+            "doc": "What kind of job to run, whether it be a single run, a binary regression search, or something else",
+            "optional": false,
+            "options": [
+                "single_run",
+                "brs",
+                "serial"
+            ]
+        }
+    ]
+}

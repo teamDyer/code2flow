@@ -1,0 +1,22 @@
+<ng-container [ngSwitch]="cellKind()">
+    <div *ngSwitchCase="'null'" class="cell"></div>
+    <div *ngSwitchCase="'array'" class="cell">
+        <a class="expand" (click)="toggle()">{{ show ? '\u25b2' : '\u25bc' }}</a>
+        <ul *ngIf="show">
+            <li *ngFor="let item of data">
+                <app-dense-table-cell [header]="header" [data]="item" [mapping]="mapping"></app-dense-table-cell>
+            </li>
+        </ul>
+    </div>
+    <div *ngSwitchCase="'object'" class="cell">
+        <a class="expand" (click)="toggle()">{{ show ? '\u25b2' : '\u25bc' }}</a>
+        <pre *ngIf="show">{{data | json}}</pre>
+    </div>
+    <div *ngSwitchCase="'link'" class="cell">
+        <a *ngIf="!isAbsoluteLink()" [routerLink]="makeLink(data)">{{data}}</a>
+        <a *ngIf="isAbsoluteLink()" [href]="makeLink(data)" target="#">{{data}}</a>
+    </div>
+    <div *ngSwitchDefault class="cell">
+        {{data}}
+    </div>
+</ng-container>

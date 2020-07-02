@@ -1,0 +1,11 @@
+{
+    "parallel": 3,
+    "note": "example submission",
+    "job_specs": [
+        {"name": "example", "params": {"a": 1, "b": "is a test"}},
+        {"name": "example", "params": {"a": 2, "b": "is a test"}},
+        {"name": "example", "params": {"a": 3, "b": "is a test"}},
+        {"name": "example", "params": {"a": 4, "b": "is a test"}},
+        {"name": "example", "params": {"a": 5, "b": "is a test"}}
+    ]
+}

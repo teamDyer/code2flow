@@ -1,0 +1,163 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
+
+/* global, custom styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+html, body {
+    font-size: 0.9rem;
+    font-family: Rubik, sans-serif;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 2rem;
+    padding: 20px;
+    font-weight: bold;
+    color: #000;
+}
+
+h2 {
+    font-size: 1.7rem;
+    padding: 16px;
+    font-weight: bold;
+    color: #111;
+}
+
+h3 {
+    font-size: 1.5rem;
+    padding: 13px;
+    font-weight: bold;
+    color: #222;
+}
+
+mat-label {
+    margin-top: 10px;
+    margin-left: 10px;
+    vertical-align: top;
+    font-family: Helvetica;
+    min-width: 150px;
+    display: inline-block;
+    text-align: left;
+    font-weight: bold;
+}
+
+mat-radio-button {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-family: Helvetica;
+    min-width: 150px;
+    display: inline-block;
+    text-align: left;
+    font-weight: bold;
+}
+
+mat-radio-group {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-family: Helvetica;
+    min-width: 150px;
+    display: inline-block;
+    text-align: left;
+    font-weight: bold;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.submit-job-input {
+    margin: 5px;
+    padding: 5px;
+    border: solid #8E8C8B 1px;
+    width: 400px !important;
+    text-align: left;
+    border-radius: 20px;
+}
+
+.submit-vrl-job-input {
+    margin-left: 150px;
+    padding: 5px;
+    border: solid #8E8C8B 1px;
+    width: 400px !important;
+    text-align: left;
+    border-radius: 20px;
+    display:flex
+}
+
+.submit-vrl-job-input-h4 {
+    margin-left: 150px;
+}
+
+.submit-job-input:focus {
+    border: solid #76b900 1px;
+    border-radius: 20px;
+    outline: none;
+}
+
+.submit-vrl-job-input:focus {
+    border: solid #76b900 1px;
+    border-radius: 20px;
+    outline: none;
+}
+
+.mat-custom-tooltip {
+    max-width: unset !important;
+}
+
+mat-card {
+    padding: 10px;
+    margin: 20px;  
+    display: flex;
+    justify-content: space-between;
+}
+
+::-webkit-scrollbar {
+    /* Width of vertical scroll bar */
+    width: 8px;
+    /* // Height of horizontal scroll bar */
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background: #c2c9d2;
+}
+::-webkit-scrollbar-track {
+    margin: 15px 30px;
+}
+
+.error-panel {
+    background: #FCC;
+    padding: 10px;
+    margin: 5px;
+}
+
+.success-panel{
+    background: #76b900;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+}
+
+.green-snackbar {
+    background: rgb(157, 206, 124);
+    font-weight: bold;
+}
+
+.red-snackbar {
+    background: rgb(209, 91, 83);
+}
